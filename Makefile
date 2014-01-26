@@ -4,10 +4,11 @@ all:
 %.csr.pem:
 	openssl req -config csr.conf -newkey rsa:2048 -nodes -keyout $(@:.csr.pem=.key.pem) -out $@
 
-%.jks: %.crt.pem ca.pem sub.class1.server.ca.pem
-	keytool -importcert -alias ca -file ca.pem -keystore $@
-	keytool -importcert -alias sub.class1.server.ca -file sub.class1.server.ca.pem -keystore $@
-	keytool -importcert -trustcacerts -alias $(@:.jks=) -file $< -keystore $@
+%.p12: %.crt.pem
+	openssl pkcs12 -export -inkey $(subst .crt.pem,.key.pem,$<) -in $< -out $@
+
+%.jks: %.p12 ca.pem sub.class1.server.ca.pem
+	keytool -importkeystore -srckeystore $< -srcstoretype pkcs12 -destkeystore $@
 
 sub.class1.server.ca.pem:
 	curl https://www.startssl.com/certs/sub.class1.server.ca.pem > $@
