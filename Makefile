@@ -18,3 +18,6 @@ $(chain_file): $(chain_content_files)
 
 $(chain_content_files):
 	curl --output $@ https://www.startssl.com/certs/$@
+
+clean:
+	-rm $(chain_file) $(chain_content_files)
