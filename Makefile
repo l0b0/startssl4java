@@ -13,8 +13,5 @@ all:
 chain.pem: ca.pem sub.class1.server.ca.pem
 	cat ca.pem sub.class1.server.ca.pem > $@
 
-sub.class1.server.ca.pem:
-	curl https://www.startssl.com/certs/sub.class1.server.ca.pem > $@
-
-ca.pem:
-	curl https://www.startssl.com/certs/ca.pem > $@
+ca.pem sub.class1.server.ca.pem:
+	curl https://www.startssl.com/certs/$@ > $@
