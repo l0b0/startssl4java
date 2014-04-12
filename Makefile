@@ -17,4 +17,4 @@ $(chain_file): $(chain_content_files)
 	cat $(chain_content_files) > $@
 
 $(chain_content_files):
-	curl https://www.startssl.com/certs/$@ > $@
+	curl --output $@ https://www.startssl.com/certs/$@
