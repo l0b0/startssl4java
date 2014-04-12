@@ -1,3 +1,4 @@
 *.fingerprint
 *.jks
+*.p12
 *.pem
