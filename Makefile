@@ -8,7 +8,7 @@ all:
 	openssl req -config csr.conf -newkey rsa:2048 -nodes -keyout $(@:.csr.pem=.key.pem) -out $@
 
 %.p12: %.crt.pem $(chain_file)
-	openssl pkcs12 -export -chain -inkey $(subst .crt.pem,.key.pem,$<) -in $< -CAfile $(chain_file) -out $@
+	openssl pkcs12 -export -chain -inkey $(@:.p12=.key.pem) -in $(@:.p12=.crt.pem) -CAfile $(chain_file) -out $@
 
 %.jks: %.p12
 	keytool -importkeystore -srckeystore $< -srcstoretype pkcs12 -destkeystore $@
